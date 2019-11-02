@@ -7,7 +7,7 @@
         if (!isTrigerKey(event)){
             return;
         }
-        window.open(createSearchURL(), '_blank');
+        openKintoneSearchScreen();
     }
 
     function isTrigerKey(event)
@@ -20,10 +20,19 @@
         return window.getSelection().toString();
     }
 
-    function createSearchURL()
+    function createSearchURL(keyword)
+    {
+        return "/k/" + appID + "/?q=" + fieldID + "%20like%20%22" + keyword + "%22";
+    }
+
+    function openKintoneSearchScreen()
     {
         const selectedText = getSelectedText();
-        return "/k/" + appID + "/?q=" + fieldID + "%20like%20%22" + selectedText + "%22";
+        if (selectedText === ''){
+            return;
+        }
+        const searchURL = createSearchURL(selectedText);
+        window.open(searchURL, '_blank');
     }
 
     document.onkeydown = main;
